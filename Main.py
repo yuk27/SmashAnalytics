@@ -97,7 +97,7 @@ time.sleep(2)  # Sleep for 3 seconds
 print("Start")
 
 
-row = ["Player", "Character", "Kos", "Falls", "Battles", "Won Battles", "Success Rate", "Fail rate"]
+row = ["Player", "Character", "Kos", "Falls", "Battles", "Success Rate", "Fail rate",  "Won Battles"]
 
 ws = wb.create_sheet()
 ws.title = 'Export'  # player_name
@@ -131,14 +131,28 @@ for y in range(0, amnt_players):
             press_key('up')
             press_key('up')
 
+            kos = int(kos)
+            falls = int(falls)
+
+            if falls != "" and kos + falls != 0:
+                success_rate = kos / (kos + falls)
+            else:
+                success_rate = 0
+
+            if battles != '' and battles is not None:
+                won_battles = int(battles) * success_rate
+            else:
+                won_battles = 0
+
             row = [
                 player,
                 character,
                 kos,
                 falls,
                 battles,
-                "=[@Battles]*[@[Success Rate]]",
-                "=IF([@Kos]+[@Falls]=0;0;C2/([@Kos]+[@Falls]))", "=1-[@[Success Rate]]"
+                success_rate,
+                1 - success_rate,
+                won_battles
             ]
 
         add_row(ws, x + (y * amnt_characters) + 1, row)
@@ -146,7 +160,7 @@ for y in range(0, amnt_players):
         # Move to next character
         press_key('e')
 
-        print("Player{2} - character {0}/{3}: {1} - {4}".format(x, row, y, amnt_characters, (x + (y * amnt_characters))))
+        print("Player{2} - character {0}/{3}: {1} - {4}".format(x+1, row, y, amnt_characters, (x + (y * amnt_characters))))
 
     # Next player
     # player_name = None
