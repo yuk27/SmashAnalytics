@@ -10,7 +10,7 @@ import os
 import datetime
 
 amnt_characters = 84
-amnt_players = 3
+amnt_players = 7
 
 path = Path().absolute()
 wb = Workbook()
@@ -132,17 +132,18 @@ for y in range(0, amnt_players):
             press_key('up')
 
             kos = int(kos)
-            falls = int(falls)
+            if falls != "":
+                falls = int(falls)
 
-            if falls != "" and kos + falls != 0:
-                success_rate = kos / (kos + falls)
-            else:
-                success_rate = 0
+                if kos + falls != 0:
+                    success_rate = kos / (kos + falls)
+                else:
+                    success_rate = 0
 
-            if battles != '' and battles is not None:
-                won_battles = int(battles) * success_rate
-            else:
-                won_battles = 0
+                if battles != '' and battles is not None:
+                    won_battles = int(battles) * success_rate
+                else:
+                    won_battles = 0
 
             row = [
                 player,
